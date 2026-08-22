@@ -97,6 +97,35 @@ Shared options: `--email-account`, `--mtproxy-workers`, `--mtproxy-max-connectio
 
 ---
 
+## Carrier modes
+
+The `--carrier` option picks the **transport** used between the browser and the proxy. It combines two independent choices:
+
+**Transport shell: `https` vs `websocket`**
+
+- **`https`** — traffic runs as a normal HTTPS (TLS) connection. Highest compatibility, lowest overhead; ideal for **direct** mode.
+- **`websocket`** — traffic is wrapped inside a **WebSocket** connection (which itself runs over HTTPS), so it looks like ordinary web traffic. It sails through firewalls and reverse proxies more easily, and is especially friendly to **Cloudflare** (which proxies WebSocket well).
+
+**Connection count: no `lanes` vs `lanes`**
+
+- **no `lanes`** — a single connection per session. Simple, low connection count.
+- **`lanes`** — the client opens **several parallel connections** ("fast lanes"). This reduces latency spikes and raises throughput, which helps most on high-latency or unstable connections, at the cost of a few more connections.
+
+### Choosing a mode
+
+| Mode | Shell | Connections | Best for |
+|------|-------|-------------|----------|
+| `https` | HTTPS | single | direct mode; simplest and lowest overhead |
+| `https-lanes` | HTTPS | parallel | direct mode, when you want more speed |
+| `websocket` | WebSocket | single | behind Cloudflare / a reverse proxy; looks like normal web traffic |
+| `websocket-lanes` | WebSocket | parallel | behind Cloudflare **and** want more speed |
+
+> **Recommended:** use `websocket-lanes` when the subdomain is fronted by Cloudflare, and `https` or `https-lanes` for a direct (non-Cloudflare) setup.
+
+You can switch the mode later by re-running the installer with the same hostname and a different `--carrier` (the instance is refreshed in place).
+
+---
+
 ## Cloudflare setup
 
 To front an instance with Cloudflare:
