@@ -47,8 +47,6 @@ Instance options:
   --name ID                    instance id (default: the hostname)
   --email EMAIL                ACME/Let's Encrypt contact email
   --mode direct|cf             front mode (default: direct)
-  --cf-token TOKEN             Cloudflare API token -> Origin CA (cf mode only)
-  --cf-zone ZONE_ID            Cloudflare zone id (optional; auto-detected)
   --secret HEX                 proxy secret (default: random)
   --carrier MODE               https|https-lanes|websocket|websocket-lanes
   --site-dir DIR               mask the front with a local static site
@@ -64,10 +62,9 @@ Shared options:
   --no-dns-check               skip the DNS preflight warning
   --help                       show this help
 
-Cloudflare note: with --cf-token the script issues a Cloudflare Origin CA
-certificate (15 years, no public challenge). Without a token in cf mode it
-obtains a Let's Encrypt cert while the subdomain's Cloudflare proxy is OFF,
-then tells you to turn the proxy ON afterwards.
+Cloudflare note: in cf mode the script issues a Let's Encrypt certificate.
+Turn OFF the Cloudflare proxy (orange cloud) for the subdomain BEFORE
+installing, then turn it ON (Proxied) after the install completes.
 USAGE
 }
 
@@ -105,17 +102,8 @@ json.dump(d,open(reg,"w"),indent=2)
 PY
 }
 
-cf_api(){ local m="$1" p="$2" d="${3:-}"; curl --fail --silent --show-error --proto '=https' --tlsv1.2 -X "$m" -H "Authorization: Bearer ${cf_token}" -H "Content-Type: application/json" ${d:+--data "$d"} "https://api.cloudflare.com/client/v4/$p"; }
-cf_zone_id(){ local resp id name bid="" bl=0; resp="$(cf_api GET "zones?per_page=100" 2>/dev/null || true)"; [[ -n "$resp" ]] || return 0; while read -r id name; do [[ -n "$id" && -n "$name" ]] || continue; if [[ "$hostname" == "$name" ]]; then echo "$id"; return 0; fi; if [[ "$hostname" == *".$name" ]] && (( ${#name} > bl )); then bid="$id"; bl=${#name}; fi; done < <(echo "$resp" | python3 -c 'import sys,json
-d=json.load(sys.stdin)
-for z in d.get("result",[]):
-    if z.get("status")=="active": print(z.get("id",""),z.get("name",""))' 2>/dev/null); echo "$bid"; }
-cf_issue_origin(){ local payload; payload="$(python3 -c 'import json,sys;print(json.dumps({"hostnames":[sys.argv[1]],"requested_validity":5475,"request_type":"origin-rsa","csr":""}))' "$hostname")"; cf_api POST certificates "$payload"; }
-cf_write_origin(){ local resp="$1" cert key; cert="$(echo "$resp" | python3 -c 'import sys,json;print(json.load(sys.stdin)["result"]["certificate"])' 2>/dev/null)"; key="$(echo "$resp" | python3 -c 'import sys,json;print(json.load(sys.stdin)["result"]["private_key"])' 2>/dev/null)"; [[ -n "$cert" && -n "$key" ]] || die "Cloudflare Origin CA response malformed."; install -d -o root -g caddy -m 0750 "$CADDY_DIR"; printf '%s\n' "$cert" > "$CADDY_DIR/$name-origin.pem"; printf '%s\n' "$key" > "$CADDY_DIR/$name-origin.key"; chown root:caddy "$CADDY_DIR/$name-origin.pem" "$CADDY_DIR/$name-origin.key"; chmod 0644 "$CADDY_DIR/$name-origin.pem"; chmod 0640 "$CADDY_DIR/$name-origin.key"; }
-cf_set_ssl(){ cf_api PATCH "zones/$1/settings/ssl" '{"value":"strict"}' >/dev/null 2>&1 || warn "set Cloudflare SSL mode to 'Full (strict)' manually."; }
-
 action=install
-hostname= name= email= mode=direct cf_token= cf_zone= secret= carrier=
+hostname= name= email= mode=direct secret= carrier=
 site_dir= site_upstream= email_account= keep_log=0 clean=0 check_dns=1
 mtproxy_workers=1 mtproxy_max_connections=4096 caddy_version=2.11.4
 
@@ -129,8 +117,6 @@ while [[ $# -gt 0 ]]; do
 		--email) email="${2:-}"; shift 2 ;;
 		--email-account) email_account="${2:-}"; shift 2 ;;
 		--mode) mode="${2:-}"; shift 2 ;;
-		--cf-token) cf_token="${2:-}"; shift 2 ;;
-		--cf-zone) cf_zone="${2:-}"; shift 2 ;;
 		--secret) secret="${2:-}"; shift 2 ;;
 		--carrier) carrier="${2:-}"; shift 2 ;;
 		--site-dir) site_dir="${2:-}"; shift 2 ;;
@@ -198,7 +184,7 @@ if [[ "$action" == install && -z "$hostname" ]]; then
 	read -rp "  Front mode [direct/cf] (default: direct): " _m
 	case "${_m,,}" in cf) mode=cf;; *) mode=direct;; esac
 	if [[ "$mode" == cf ]]; then
-		read -rp "  Cloudflare API token (empty = Let's Encrypt, enable proxy later): " cf_token
+		printf '\n  \033[1;33mImportant:\033[0m before continuing, turn OFF the Cloudflare proxy\n  (orange cloud) for %s. Run the install now; after it finishes,\n  you will turn the proxy back ON.\n' "$hostname"
 	fi
 	read -rp "  Carrier [https-lanes/https/websocket/websocket-lanes] (default: https-lanes): " _c
 	case "${_c,,}" in https|websocket|websocket-lanes) carrier="${_c,,}";; *) carrier=https-lanes;; esac
@@ -215,13 +201,15 @@ mode="${mode:-direct}"
 [[ -n "$email" ]] || email="$email_account"
 [[ -n "$name" ]] || name="$hostname"
 name="${name//[^a-zA-Z0-9_.-]/_}"
-[[ "$mode" == cf && -z "$cf_token" ]] && { warn "cf mode without --cf-token: using a Let's Encrypt cert while the CF proxy is OFF; you will enable the proxy afterwards."; }
 [[ -n "$site_dir" && -n "$site_upstream" ]] && die "--site-dir and --site-upstream are mutually exclusive"
 if [[ -n "$site_dir" ]]; then [[ -d "$site_dir" && -f "$site_dir/index.html" ]] || die "site dir must contain index.html"; fi
 
 if [[ "$check_dns" == 1 ]] && command -v getent >/dev/null 2>&1; then
 	if [[ "$mode" == cf ]]; then
-		ok "Cloudflare mode — the ${hostname} record should be proxied (orange) only AFTER this install completes."
+		printf '\n  \033[1;33mImportant:\033[0m before continuing, turn OFF the Cloudflare proxy\n  (orange cloud) for %s, then press any key to proceed.\n' "$hostname"
+		read -rsn1 -p "  Press Enter when the proxy is OFF... " _
+		printf '\n'
+		ok "Cloudflare mode — issuing a Let's Encrypt cert while the proxy is OFF; you will turn it ON after install."
 	elif [[ -z "$(getent ahosts "$hostname" 2>/dev/null | awk 'NR==1{print $1}')" ]]; then
 		warn "DNS does not yet resolve ${hostname}; Let's Encrypt will wait for it."
 	fi
@@ -510,30 +498,13 @@ ok "instance config written ($backend / admin $admin / mtproxy $mtp)"
 step_done
 
 step_begin "7  Certificate ($hostname)"
-origin_pem=""; use_le=0
-if [[ "$mode" == cf && -n "$cf_token" ]]; then
-	ok "Cloudflare mode — issuing an Origin CA certificate for $hostname"
-	zid="${cf_zone:-$(cf_zone_id)}"
-	if [[ -z "$zid" ]]; then warn "zone id not found; skip SSL-mode setting (set Full (strict) manually)"; else cf_set_ssl "$zid" && ok "zone SSL mode set to Full (strict)"; fi
-	cf_write_origin "$(cf_issue_origin)"
-	origin_pem="$CADDY_DIR/$name-origin.pem"
-elif [[ "$mode" == cf ]]; then
-	warn "cf mode without token: will use Let's Encrypt (proxy OFF during issue). Enable the CF proxy afterwards."
-	use_le=1
-else
-	use_le=1
-fi
+use_le=1
 {
 	cat <<CADDY
 $hostname {
 	encode zstd gzip
 	header Strict-Transport-Security "max-age=31536000; includeSubDomains"
 CADDY
-	if [[ -n "$origin_pem" ]]; then
-		cat <<CADDY
-	tls $origin_pem ${origin_pem%.pem}.key
-CADDY
-	fi
 	cat <<CADDY
 	reverse_proxy 127.0.0.1:$backend {
 		transport http {
@@ -561,13 +532,13 @@ chmod 0644 "$SITES_DIR/$name.caddy"
 if [[ "$use_le" == 1 && -n "$email" ]]; then
 	grep -q '^\s*email ' /etc/caddy/Caddyfile 2>/dev/null || sed -i "s/\tadmin off/\tadmin off\n\temail $email/" /etc/caddy/Caddyfile
 fi
-if [[ -n "$origin_pem" ]]; then cert_desc='Cloudflare Origin CA'; else cert_desc='Lets Encrypt via Caddy'; fi
+cert_desc="Let's Encrypt via Caddy"
 ok "certificate prepared ($cert_desc)"
 step_done
 
 step_begin "7  Services & firewall"
 systemctl daemon-reload
-reg_add "$REG" "$name" "$hostname" "$mode" "$backend" "$admin" "$mtp" "$mtpa" "$([[ -n "$origin_pem" ]] && echo 1 || echo 0)"
+reg_add "$REG" "$name" "$hostname" "$mode" "$backend" "$admin" "$mtp" "$mtpa" "0"
 {
 	cat <<'NFT'
 table inet tproxy_backend {

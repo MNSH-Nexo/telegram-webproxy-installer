@@ -9,7 +9,7 @@ One-click, multi-instance Telegram **web / webapp proxy** installer (MTProxy + C
 - **One-command install** — downloads and configures Go, Caddy, MTProxy and systemd services automatically. No manual prerequisites.
 - **Multi-instance** — run as many instances as you want on one server; each is fully isolated (own domain, ports, profiles and services).
 - **Automatic HTTPS** — Let's Encrypt certificates issued and renewed by Caddy for every instance.
-- **Cloudflare-ready** — direct mode by default, or Cloudflare-fronted with a 15-year Origin CA certificate when you provide an API token, or a Let's Encrypt certificate issued while the Cloudflare proxy is off.
+- **Cloudflare-ready** — direct mode by default, or Cloudflare-fronted: turn the proxy off, the installer issues a Let's Encrypt certificate, then you turn the proxy on.
 - **Interactive wizard** — when run without arguments it walks you through domain, mode, carrier and email step by step.
 - **Carrier profiles** — choose the best transport (e.g. `https-lanes`) for your region.
 - **Hardened by default** — the firewall only exposes port 443; MTProxy admin panels stay LAN-only.
@@ -67,11 +67,8 @@ For automation or re-runs you can pass arguments instead of using the wizard:
 # Direct instance
 bash install-tproxy.sh --hostname proxy.example.com --mode direct --carrier https-lanes --email admin@example.com
 
-# Cloudflare instance WITHOUT API token (proxy stays OFF until you enable it)
+# Cloudflare instance (turn the proxy OFF before installing, ON after it finishes)
 bash install-tproxy.sh --hostname cdn.example.com --mode cf
-
-# Cloudflare instance WITH API token (Origin CA, 15-year, no manual steps)
-bash install-tproxy.sh --hostname cdn.example.com --mode cf --cf-token CF_API_TOKEN
 ```
 
 ### Actions
@@ -91,8 +88,6 @@ bash install-tproxy.sh --hostname cdn.example.com --mode cf --cf-token CF_API_TO
 | `--name ID` | instance id (default: the hostname) |
 | `--email EMAIL` | Let's Encrypt contact email |
 | `--mode direct\|cf` | front mode (default: `direct`) |
-| `--cf-token TOKEN` | Cloudflare API token (Origin CA, cf mode only) |
-| `--cf-zone ZONE_ID` | Cloudflare zone id (optional, auto-detected) |
 | `--secret HEX` | proxy secret (default: random) |
 | `--carrier MODE` | `https` \| `https-lanes` \| `websocket` \| `websocket-lanes` |
 | `--site-dir DIR` | mask the front with a local static site |
@@ -104,16 +99,13 @@ Shared options: `--email-account`, `--mtproxy-workers`, `--mtproxy-max-connectio
 
 ## Cloudflare setup
 
-Two ways to front an instance with Cloudflare:
+To front an instance with Cloudflare:
 
-**Without a token (manual):**
-1. In Cloudflare, set the subdomain record to **DNS only** (proxy off).
-2. Run the installer in `cf` mode — it issues a Let's Encrypt certificate.
-3. Flip the record to **Proxied** (orange cloud).
+1. In Cloudflare, set the subdomain record to **DNS only** (proxy off / gray cloud) **before** installing.
+2. Run the installer in `cf` mode. It issues a **Let's Encrypt** certificate while the proxy is off.
+3. After the install finishes, flip the record to **Proxied** (orange cloud).
 
-**With an API token (automatic):**
-1. Create a Cloudflare API token with **Zone.DNS edit** and **SSL and Certificates edit** permissions.
-2. Pass it via `--cf-token`. The installer requests an **Origin CA** certificate (15 years) with no manual steps.
+No Cloudflare API token is required.
 
 ---
 
@@ -135,12 +127,12 @@ Profiles live under `/etc/tproxy-server/<instance>/`; every instance has its own
 
 ## Uninstall
 
-Every instance registers itself in `/etc/tproxy-server/registry.json`.
+Every instance registers itself in `/etc/tproxy-server/instances.json`.
 
 - List installed instances: `bash install-tproxy.sh --list`
 - Wipe everything (all instances and shared components): `bash install-tproxy.sh --wipe`
 
-To remove just a single instance, stop and disable its systemd services, then delete its profile under `/etc/tproxy-server/<instance>/` and its entry in `registry.json`.
+To remove just a single instance, stop and disable its systemd services, then delete its profile under `/etc/tproxy-server/<instance>/` and its entry in `instances.json`.
 
 ---
 
