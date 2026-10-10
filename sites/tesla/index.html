@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Независимая диагностика и обслуживание автомобилей Tesla. Мастер __NAME_RU__, работа по предварительной записи.">
+<meta name="theme-color" content="#17191c">
+<title>__NAME_EN__ Tesla Service | Диагностика и ремонт Tesla</title>
+<style>
+:root{--bg:#17191c;--bg2:#1f2226;--line:#2d3136;--fg:#eceef0;--mut:#9aa1a9;--red:__A__}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font:17px/1.65 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+a{color:inherit;text-decoration:none}
+a:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+.w{max-width:1080px;margin:0 auto;padding:0 22px}
+header{position:sticky;top:0;z-index:5;background:#17191cf0;border-bottom:1px solid var(--line)}
+header .w{display:flex;align-items:center;gap:26px;height:66px}
+.logo{display:flex;align-items:center;gap:10px;margin-right:auto;line-height:1.1}
+.logo i{width:32px;height:32px;border-radius:50%;background:var(--red);display:grid;place-items:center;font-style:normal;font-weight:800}
+.logo b{font-weight:500;display:block;font-size:13px;color:var(--mut)}
+header nav a{color:var(--mut);font-size:15px;margin-left:4px}
+header nav a:hover{color:var(--fg)}
+.btn{display:inline-block;padding:12px 22px;border-radius:6px;font-weight:600;font-size:15px;border:1px solid var(--line);margin:0 8px 8px 0}
+.btn.p{background:var(--red);border-color:var(--red);color:#fff}
+.hero{position:relative;min-height:560px;display:flex;align-items:flex-end;background:
+ linear-gradient(180deg,#17191c40 0%,#17191c 92%),
+ radial-gradient(ellipse at 70% 30%,#3a4047 0%,#17191c 65%);}
+.hero .w{padding-bottom:60px;padding-top:120px}
+.hero small{color:var(--red);font-weight:600}
+h1{font-size:clamp(36px,6vw,66px);line-height:1.05;letter-spacing:-1.5px;margin:10px 0 16px;max-width:760px}
+.hero p{max-width:540px;color:var(--mut);font-size:19px;margin-bottom:26px}
+.tags{color:var(--mut);font-size:14px;margin-top:10px}
+section{padding:72px 0;border-top:1px solid var(--line)}
+.approach{display:grid;grid-template-columns:1fr 1.4fr;gap:40px;align-items:start}
+h2{font-size:clamp(26px,3.6vw,38px);line-height:1.15;letter-spacing:-.8px}
+.muted{color:var(--mut)}
+.services{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:30px}
+.svc{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:26px}
+.svc span{color:var(--red);font-weight:700;font-size:14px}
+.svc h3{margin:6px 0 8px;font-size:20px}
+.svc p{color:var(--mut);font-size:15px}
+.svc em{display:block;margin-top:12px;font-style:normal;font-size:14px;border-top:1px solid var(--line);padding-top:10px}
+.models{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.models span{border:1px solid var(--line);background:var(--bg2);border-radius:99px;padding:8px 20px;font-weight:600}
+ol{list-style:none;padding:0;margin-top:30px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+ol li{border-left:2px solid var(--red);padding:2px 0 2px 18px}
+ol h3{font-size:19px;margin-bottom:4px}
+ol p{color:var(--mut);font-size:15px}
+.contact{text-align:center}
+.contact p{max-width:520px;margin:12px auto 26px}
+footer{border-top:1px solid var(--line);padding:30px 0;color:var(--mut);font-size:14px}
+footer .w{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+footer a{margin-left:18px}
+@media(max-width:760px){.approach,.services,ol{grid-template-columns:1fr}header nav{display:none}.hero{min-height:480px}}
+.hero .bg{position:absolute;inset:0;opacity:.34;z-index:0;overflow:hidden}.hero .bg svg{width:100%;height:100%;display:block}
+.hero .bg:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#17191c 8%,#17191c00 70%),linear-gradient(180deg,#17191c00 40%,#17191c)}
+.hero .w{position:relative;z-index:1;display:grid;grid-template-columns:1.05fr 1fr;gap:10px;align-items:end}
+.carbox{align-self:center;padding-top:50px}.car{width:100%;height:auto;display:block;filter:drop-shadow(0 18px 40px #0008)}
+.ic{width:22px;height:22px}
+.ico{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;background:color-mix(in srgb,var(--red) 16%,transparent);color:var(--red);margin-bottom:14px}
+.gal{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
+.gal figure{margin:0;position:relative;border-radius:12px;overflow:hidden;aspect-ratio:4/3;border:1px solid var(--line);background:var(--bg2)}
+.gal figure>svg.photo{width:100%;height:100%;display:block}
+.gal .cr{position:absolute;left:10%;right:10%;bottom:37%}.gal .cr .car{filter:none}
+.gal figcaption{position:absolute;left:0;right:0;bottom:0;padding:36px 16px 14px;background:linear-gradient(transparent,#000b);font-size:14px}
+.gal figcaption b{display:block;font-size:15px}
+.rev{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
+.rev blockquote{margin:0;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:22px;font-size:15px;color:var(--fg)}
+.rev .st{color:#ffc94d;letter-spacing:2px;font-size:14px;margin-bottom:10px}
+.rev .who{display:flex;align-items:center;gap:12px;margin-top:16px;font-size:14px;color:var(--mut)}.av{width:40px;height:40px;flex:none}.who b{color:var(--fg);display:block}
+.cont{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 28px;margin:26px 0 6px;color:var(--mut);font-size:15px}.cont span{display:inline-flex;align-items:center;gap:8px}.cont .ic{color:var(--red)}
+@media(max-width:760px){.hero .w{grid-template-columns:1fr}.carbox{padding-top:0}.gal,.rev{grid-template-columns:1fr}}
+</style>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+__ICONS__
+<header><div class="w">
+<a class="logo" href="/"><i>__INIT__</i><span>__NAME_EN__<b>Tesla Service</b></span></a>
+<nav><a href="#services">Услуги</a> &nbsp; <a href="prices.html">Цены</a> &nbsp; <a href="#process">Как работаю</a> &nbsp; <a href="about.html">О мастере</a></nav>
+<a class="btn p" style="margin:0" href="#contact">Записаться</a>
+</div></header>
+
+<div class="hero"><div class="bg">__ART_CITY1__</div><div class="w"><div>
+<small>Независимый сервис Tesla</small>
+<h1>Ремонт и диагностика Tesla</h1>
+<p>Мастер __NAME_RU__. Понятная диагностика, согласование работ до начала ремонта и внимание к деталям.</p>
+<a class="btn p" href="#contact">Записаться на осмотр</a><a class="btn" href="#services">Посмотреть услуги</a>
+<div class="tags">Model 3 / Y &nbsp;·&nbsp; Model S / X &nbsp;·&nbsp; По предварительной записи</div>
+</div><div class="carbox">__ART_CAR__</div></div></div>
+
+<section><div class="w approach">
+<div class="muted">Подход</div>
+<div><h2>Сначала находим причину. Потом меняем детали.</h2>
+<p class="muted" style="margin-top:16px">Проверяю автомобиль по симптомам, фиксирую результаты диагностики и заранее объясняю варианты ремонта. Без навязанных работ и неожиданных пунктов в смете.</p></div>
+</div></section>
+
+<section id="services"><div class="w">
+<div class="muted">Основные работы</div>
+<h2 style="margin-top:6px">С чем можно обратиться</h2>
+<p class="muted" style="margin-top:10px;max-width:600px">Точная стоимость определяется после осмотра. До начала ремонта согласуем перечень работ, детали и сроки.</p>
+<div class="services">
+<div class="svc"><div class="ico">__ICON_cpu__</div><span>01</span><h3>Компьютерная диагностика</h3><p>Ошибки систем, предупреждения на экране, нестабильная работа электроники и поиск причины неисправности.</p><em>От первичной проверки до плана ремонта</em></div>
+<div class="svc"><div class="ico">__ICON_wrench__</div><span>02</span><h3>Подвеска и тормоза</h3><p>Осмотр ходовой части, устранение стуков, обслуживание тормозных механизмов и замена изношенных компонентов.</p><em>С проверкой после выполненных работ</em></div>
+<div class="svc"><div class="ico">__ICON_bolt__</div><span>03</span><h3>Зарядка и электрика</h3><p>Проверка проблем с зарядкой, низковольтной системой, разъёмами, проводкой и вспомогательным оборудованием.</p><em>Диагностика перед заменой узлов</em></div>
+<div class="svc"><div class="ico">__ICON_clock__</div><span>04</span><h3>Плановое обслуживание</h3><p>Сезонный осмотр, фильтры, жидкости, очистка и профилактика механизмов, подготовка автомобиля к поездке.</p><em>Индивидуальный список по состоянию авто</em></div>
+</div></div></section>
+
+<section><div class="w">
+<div class="muted">Модели</div>
+<h2 style="margin-top:6px">Работаю с актуальной линейкой Tesla</h2>
+<div class="models"><span>Model 3</span><span>Model Y</span><span>Model S</span><span>Model X</span></div>
+</div></section>
+
+<section><div class="w">
+<div class="muted">Работы</div>
+<h2 style="margin-top:6px">Недавние автомобили в мастерской</h2>
+<div class="gal">
+<figure>__ART_CITY2__<span class="cr">__ART_CAR__</span><figcaption><b>Model 3 · подвеска</b>Устранён стук, замена рычагов и сайлентблоков</figcaption></figure>
+<figure>__ART_CITY3__<span class="cr">__ART_CAR__</span><figcaption><b>Model Y · зарядка</b>Диагностика зарядного порта и низковольтной системы</figcaption></figure>
+<figure>__ART_CITY4__<span class="cr">__ART_CAR__</span><figcaption><b>Model S · плановое ТО</b>Сезонный осмотр, фильтры, тормозная жидкость</figcaption></figure>
+</div></div></section>
+
+<section id="process"><div class="w">
+<div class="muted">Порядок работы</div>
+<h2 style="margin-top:6px">Три понятных этапа</h2>
+<ol>
+<li><h3>Обсуждаем симптомы</h3><p>Уточняем модель, год, пробег и то, как проявляется проблема.</p></li>
+<li><h3>Проводим диагностику</h3><p>Проверяю автомобиль и формирую понятный список необходимых действий.</p></li>
+<li><h3>Согласуем ремонт</h3><p>Работы начинаются только после согласования стоимости и сроков.</p></li>
+</ol>
+</div></section>
+
+<section><div class="w">
+<div class="muted">Отзывы</div>
+<h2 style="margin-top:6px">Что говорят владельцы</h2>
+<div class="rev">
+<blockquote><div class="st">★★★★★</div>Нашёл причину ошибки подвески за один заезд. Заранее назвал стоимость, итоговая сумма не изменилась.<div class="who">__AV1__<span><b>Михаил К.</b>Model 3, 2021</span></div></blockquote>
+<blockquote><div class="st">★★★★★</div>Объяснил, что именно менять, а что можно оставить. Удобно, что без навязанных работ.<div class="who">__AV2__<span><b>Анна В.</b>Model Y, 2022</span></div></blockquote>
+<blockquote><div class="st">★★★★★</div>Записался онлайн, приняли в назначенное время. Проблема с зарядкой решена, прислали фото и отчёт.<div class="who">__AV3__<span><b>Олег Т.</b>Model S, 2019</span></div></blockquote>
+</div></div></section>
+
+<section id="contact" class="contact"><div class="w">
+<div class="muted">Запись на диагностику</div>
+<h2 style="margin-top:6px">Расскажите, что происходит с автомобилем</h2>
+<p class="muted">Укажите модель, год выпуска и симптомы. __NAME_RU__ ответит и предложит время для осмотра.</p>
+<a class="btn p" href="mailto:service@__DOMAIN__?subject=Запись%20на%20диагностику%20Tesla">Написать на service@__DOMAIN__</a>
+<div class="cont"><span>__ICON_mail__service@__DOMAIN__</span><span>__ICON_clock__Пн–Сб 10:00–19:00</span><span>__ICON_pin__Приём по записи</span></div>
+<p class="muted" style="font-size:14px">Приём автомобилей только по предварительной записи.</p>
+</div></section>
+
+<footer><div class="w">
+<span>__NAME_EN__ Tesla Service · Независимая мастерская. Не является официальным сервисным центром Tesla, Inc.</span>
+<span><a href="about.html">О мастере</a><a href="prices.html">Цены</a><a href="privacy.html">Конфиденциальность</a></span>
+</div></footer>
+</body>
+</html>
