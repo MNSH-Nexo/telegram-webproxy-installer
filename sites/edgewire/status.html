@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="__BRAND__ - deploy static sites, serverless functions and containers to a global edge network.">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>System status — __BRAND__</title>
+<style>
+:root{--bg:#0a0c16;--panel:#12162a;--line:#232842;--txt:#e8eaf6;--mut:#8b91b5;--a:__A__;--b:__B__}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--txt);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+a{color:inherit;text-decoration:none}
+.w{max-width:1100px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;background:#0a0c16ee;backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:5}
+header .w{display:flex;align-items:center;gap:28px;height:60px}
+.logo{font-weight:800;font-size:20px;margin-right:auto}
+nav a{color:var(--mut);margin-left:22px;font-size:14px}
+nav a:hover{color:var(--txt)}
+.btn{display:inline-block;padding:11px 20px;border-radius:9px;font-weight:600;font-size:14px;border:1px solid var(--line)}
+.btn.p{background:linear-gradient(135deg,var(--a),var(--b));border:0;color:#fff}
+.hero{padding:80px 0 40px;text-align:center}
+.pill{display:inline-block;border:1px solid var(--line);border-radius:99px;padding:5px 14px;font-size:13px;color:var(--mut);margin-bottom:22px}
+h1{font-size:clamp(36px,6vw,64px);line-height:1.08;letter-spacing:-1.5px}
+h1 em,h2 em{font-style:normal;background:linear-gradient(135deg,var(--a),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:600px;margin:20px auto 28px;color:var(--mut)}
+.hero .btn{margin:0 5px}
+code{display:block;margin:26px auto 0;width:max-content;max-width:100%;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 16px;font:13px ui-monospace,monospace;color:var(--mut)}
+.dash{display:grid;grid-template-columns:170px 1fr;margin:48px 0;background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.dash aside{padding:18px;border-right:1px solid var(--line);font-size:13px;color:var(--mut)}
+.dash aside b{display:block;margin:12px 0 6px;font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+.dash aside span{display:block;padding:4px 8px;border-radius:6px}
+.dash aside .on{background:color-mix(in srgb,var(--a) 16%,transparent);color:var(--txt)}
+.dash main{padding:20px}
+.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+.kpi div{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px;font-size:12px;color:var(--mut)}
+.kpi strong{display:block;font-size:24px;color:var(--txt)}
+svg{width:100%;height:110px}
+.logos{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 36px;padding:20px 0 60px;color:var(--mut);font-weight:700}
+section{padding:60px 0}
+h2{font-size:clamp(28px,4vw,40px);letter-spacing:-1px;line-height:1.15;margin-bottom:12px}
+.sub{color:var(--mut);max-width:560px;margin-bottom:34px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px}
+.card small{color:var(--b);font-size:11px;letter-spacing:.08em}
+.card h3{margin:6px 0;font-size:18px}.card p{color:var(--mut);font-size:14px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);text-align:center;gap:16px}
+.stats strong{display:block;font-size:40px}.stats span{color:var(--mut);font-size:14px}
+blockquote{max-width:700px;margin:0 auto;text-align:center;font-size:22px}
+blockquote footer{margin-top:14px;font-size:14px;color:var(--mut)}
+.price .card ul{list-style:none;padding:0;margin:16px 0;color:var(--mut);font-size:14px}
+.price li{padding:5px 0;border-top:1px solid var(--line)}
+.price li:before{content:"✓ ";color:var(--b)}
+.price .card.hl{border-color:var(--a);box-shadow:0 0 0 1px var(--a)}
+.price strong{font-size:38px}
+.cta{text-align:center}
+footer{border-top:1px solid var(--line);padding:40px 0;color:var(--mut);font-size:14px}
+footer .w{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:24px}
+footer a{display:block;padding:3px 0}footer h4{color:var(--txt);margin-bottom:6px}
+.copy{text-align:center;padding-top:24px;font-size:13px}
+@media(max-width:760px){nav,.dash aside{display:none}.dash{grid-template-columns:1fr}.grid,.stats,footer .w{grid-template-columns:1fr 1fr}.kpi{grid-template-columns:1fr}}
+@media(max-width:480px){.grid,.stats,footer .w{grid-template-columns:1fr}}
+.banner{margin:26px 0;border-radius:16px;overflow:hidden;aspect-ratio:16/5;border:1px solid rgba(128,128,128,.28)}.banner svg{width:100%!important;height:100%!important;display:block}.globe{width:100%;max-width:420px;height:auto;display:block;margin:24px auto}
+</style>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+<header><div class="w"><a class="logo" href="index.html">__BRAND__</a>
+<nav><a href="index.html#platform">Platform</a><a href="index.html#pricing">Pricing</a><a href="about.html">Company</a><a href="docs.html">Docs</a><a href="status.html">Status</a></nav>
+<a class="btn" href="login.html">Sign in</a></div></header>
+<div class="w"><section>
+<h2>System status</h2>
+__ART_GLOBE__<p class="sub">All systems operational. Updated every minute.</p>
+<div class="card" style="margin-bottom:12px"><h3>Global network</h3><p>Operational · 99.99% over the last 90 days</p></div>
+<div class="card" style="margin-bottom:12px"><h3>Edge functions</h3><p>Operational · median start 3 ms</p></div>
+<div class="card" style="margin-bottom:12px"><h3>Realtime KV</h3><p>Operational · median read 9 ms</p></div>
+<div class="card" style="margin-bottom:12px"><h3>Dashboard and API</h3><p>Operational</p></div>
+<div class="card"><h3>Past incidents</h3><p>No incidents reported in the last 14 days.</p></div>
+</section></div>
+
+<footer><b>Maya Gonzalez</b> · Staff Engineer, Harborly</footer></blockquote></section>
+
+<section class="price" id="pricing"><h2>Predictable. Generous. <em>No surprises.</em></h2>
+<p class="sub">Start free, upgrade when you outgrow it. No egress fees, no request charges on the base tier.</p>
+<div class="grid">
+<div class="card"><h3>Starter</h3><strong>$0</strong> /mo<ul><li>100 GB egress / month</li><li>1M edge function calls</li><li>Custom domains &amp; TLS</li><li>Community support</li></ul><a class="btn" href="docs.html">Get started</a></div>
+<div class="card hl"><h3>Pro</h3><strong>$29</strong> /mo<ul><li>2 TB egress included</li><li>50M edge function calls</li><li>Realtime KV: 5 GB</li><li>Zero-trust WAF included</li><li>Priority email &amp; Slack</li></ul><a class="btn p" href="docs.html">Start 14-day trial</a></div>
+<div class="card"><h3>Business</h3><strong>$249</strong> /mo<ul><li>15 TB egress included</li><li>500M edge function calls</li><li>Realtime KV: 50 GB</li><li>99.99% uptime SLA</li><li>SAML SSO &amp; audit log</li><li>Dedicated CSM</li></ul><a class="btn" href="contact.html">Talk to sales</a></div>
+</div></section>
+
+<section class="cta"><h2>Ship at <em>the speed of light.</em></h2><p class="sub" style="margin:0 auto 24px">Deploy your first edge function in under two minutes. No credit card required.</p><a class="btn p" href="docs.html">Start free →</a> <a class="btn" href="contact.html">Book a demo</a></section>
+</div>
+
+<footer><div class="w">
+<div><b style="color:var(--txt);font-size:18px">__BRAND__</b><p>The edge platform for teams who care about latency, uptime and their monthly bill.</p></div>
+<div><h4>Product</h4><a href="index.html#platform">Edge Functions</a><a href="index.html#platform">Global CDN</a><a href="index.html#platform">Realtime KV</a><a href="index.html#platform">WAF</a></div>
+<div><h4>Company</h4><a href="about.html">About</a><a href="about.html#careers">Careers</a><a href="about.html">Blog</a><a href="contact.html">Press</a></div>
+<div><h4>Resources</h4><a href="docs.html">Docs</a><a href="docs.html#changelog">Changelog</a><a href="status.html">Status</a><a href="contact.html">Contact</a></div>
+</div><div class="copy">© 2026 __BRAND__, Inc. All rights reserved. <a href="legal.html" style="display:inline">Terms</a> · <a href="legal.html#privacy" style="display:inline">Privacy</a> · Security · GDPR · DPA</div></footer>
+</body>
+</html>
