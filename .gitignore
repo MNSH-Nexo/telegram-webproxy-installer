@@ -1,0 +1,10 @@
+# Logs
+*.log
+*.out
+
+# Install residue
+tproxy-install.log
+*-install.out
+
+# QR codes (generated locally on the server)
+*-qr.png

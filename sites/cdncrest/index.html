@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Pinned, immutable delivery for JS, CSS, fonts and WASM builds. Nine edges, SRI hashes, no build step.">
+<title>__BRAND__ — static delivery for open-source builds</title>
+<style>
+:root{--bg:#fbfcfc;--fg:#14211f;--mut:#5b6b68;--line:#dbe4e2;--acc:__A__;--card:#fff;--code:#0f1f1d;--codefg:#d5f2ec;--hero1:color-mix(in srgb,__B__ 38%,#fff);--hero2:#fbfcfc}
+@media(prefers-color-scheme:dark){:root{--bg:#0d1514;--fg:#e4efed;--mut:#8fa5a1;--line:#22322f;--acc:__B__;--card:#121d1b;--code:#08100f;--codefg:#c9efe8;--hero1:color-mix(in srgb,__A__ 55%,#0d1514);--hero2:#0d1514}}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--fg);font:17px/1.65 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+a{color:inherit;text-decoration:none}
+a:focus-visible,.btn:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+.w{max-width:1080px;margin:0 auto;padding:0 22px}
+header{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header .w{display:flex;align-items:center;gap:30px;height:60px}
+.brand{display:flex;align-items:center;gap:9px;font-weight:700;font-size:18px}
+.brand i{width:22px;height:22px;border-radius:6px;background:var(--acc);display:block;clip-path:polygon(0 100%,50% 0,100% 100%,50% 70%)}
+nav{display:flex;gap:6px;margin-right:auto}nav a{padding:6px 11px;border-radius:8px;color:var(--mut);font-size:15px}nav a:hover,nav a.on{color:var(--fg);background:color-mix(in srgb,var(--fg) 6%,transparent)}
+.srch{color:var(--mut);font-size:14px;display:flex;align-items:center;gap:6px}
+.ic{width:18px;height:18px}
+.hero{background:radial-gradient(120% 90% at 20% 0%,var(--hero1),var(--hero2) 62%)}
+.hero .w{display:grid;grid-template-columns:1fr 1.15fr;gap:20px;align-items:center;min-height:540px;padding-top:30px;padding-bottom:30px}
+h1{font-size:clamp(36px,5.4vw,58px);line-height:1.08;letter-spacing:-1.4px;margin-bottom:20px;font-weight:600}
+.hero p{color:var(--mut);font-size:19px;margin-bottom:28px;max-width:470px}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:13px 24px;border-radius:99px;font-weight:600;font-size:15px;border:1px solid var(--line);margin:0 8px 8px 0;background:var(--card)}
+.btn.p{background:var(--fg);border-color:var(--fg);color:var(--bg)}
+.fine{font-size:12.5px;color:var(--mut);margin-top:14px}.fine a{text-decoration:underline}
+.dev{width:100%;height:auto;display:block}
+h2{font-size:clamp(24px,3.2vw,32px);letter-spacing:-.6px;margin:0 0 30px;text-align:center;font-weight:600}
+.opts{padding:70px 0 20px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.oc{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;text-align:center;padding-bottom:26px}
+.oc .thumb{width:100%;height:auto;display:block}
+.oc h3{font-size:20px;margin:18px 0 4px;font-weight:600}.oc p{color:var(--mut);font-size:15px;padding:0 22px;min-height:50px}
+.oc .btn{margin:16px 0 0}
+.feat{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;padding:50px 0}
+.feat div{padding:6px 4px}.feat .ico{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:color-mix(in srgb,var(--acc) 14%,transparent);color:var(--acc);margin-bottom:12px}
+.feat .ic{width:22px;height:22px}.feat h3{font-size:17px;margin-bottom:4px}.feat p{color:var(--mut);font-size:15px}
+.net{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center;padding:30px 0 20px}
+.net h2{text-align:left}.net p{color:var(--mut)}
+.globe{width:100%;max-width:440px;height:auto;margin:0 auto;display:block}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:26px;padding:28px 0;border-block:1px solid var(--line)}
+.stats strong{display:block;font-size:34px;color:var(--acc);line-height:1.2;font-weight:600}.stats span{color:var(--mut);font-size:14px}
+.qs{padding-top:60px}
+pre{background:var(--code);color:var(--codefg);border-radius:14px;padding:22px;overflow-x:auto;font:14px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace}
+.more{display:inline-block;margin-top:14px;color:var(--acc);font-weight:600}
+.band{margin:70px 0 0;border-radius:24px;padding:42px;display:grid;grid-template-columns:1.3fr 1fr;gap:20px;align-items:center;background:linear-gradient(120deg,color-mix(in srgb,var(--acc) 18%,var(--card)),color-mix(in srgb,var(--acc) 5%,var(--card)));border:1px solid var(--line)}
+.band h2{text-align:left;margin-bottom:10px}.band p{color:var(--mut);margin-bottom:18px}
+.band .big{justify-self:center;width:150px;height:150px;border-radius:36px;display:grid;place-items:center;background:var(--card);color:var(--acc);border:1px solid var(--line);box-shadow:0 20px 50px color-mix(in srgb,var(--acc) 25%,transparent)}.band .big .ic{width:70px;height:70px}
+footer{margin-top:80px;border-top:1px solid var(--line);padding:40px 0 30px;color:var(--mut);font-size:14px}
+footer .cols{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:24px}footer h4{color:var(--fg);margin-bottom:8px;font-size:14px}footer a{display:block;padding:3px 0}
+footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid var(--line)}
+@media(max-width:800px){.hero .w,.net,.band{grid-template-columns:1fr}.hero .w{min-height:0}.cards,.feat{grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr 1fr}footer .cols{grid-template-columns:1fr 1fr}nav a{padding:6px 8px}.srch,header .btn{display:none}.band{padding:28px}.band .big{display:none}}
+@media(max-width:520px){.cards,.feat{grid-template-columns:1fr}}
+</style>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+__ICONS__
+<header><div class="w">
+<a class="brand" href="/"><i></i>__BRAND__</a>
+<nav><a class="on" href="/">Overview</a><a href="usage.html">Usage</a><a href="edges.html">Edges</a><a href="about.html">About</a></nav>
+<span class="srch">__ICON_code__Docs</span><a class="btn p" style="margin:0;padding:8px 18px" href="usage.html">Get started</a>
+</div></header>
+
+<section class="hero"><div class="w">
+<div>
+<h1>Ship your build once. Serve it everywhere.</h1>
+<p>__BRAND__ pins every upload to an immutable path and serves it from nine edges. Scripts, styles, fonts and WASM — no build step, no registry round-trip, no surprise cache purges.</p>
+<a class="btn p" href="usage.html">__ICON_box__Upload a build</a><a class="btn" href="edges.html">Edge status</a>
+<div class="fine">By uploading, you agree to the <a href="about.html">acceptable-use terms</a>.</div>
+</div>
+<div>__ART_DEVICES__</div>
+</div></section>
+
+<main class="w">
+<section class="opts"><h2>Other ways to ship</h2>
+<div class="cards">
+<div class="oc">__THUMB_WEB__<h3>Dashboard</h3><p>Drag a folder in, get a pinned URL and a ready-to-paste snippet.</p><a class="btn" href="usage.html">Open the guide</a></div>
+<div class="oc">__THUMB_CLI__<h3>Command line</h3><p>One command from CI. Hashes are computed and published for you.</p><a class="btn" href="usage.html">CLI reference</a></div>
+<div class="oc">__THUMB_API__<h3>HTTP API</h3><p>Upload, list and delete releases from any language or workflow.</p><a class="btn" href="usage.html">API notes</a></div>
+</div></section>
+
+<section class="feat">
+<div><div class="ico">__ICON_lock__</div><h3>Immutable paths</h3><p>Every release lands under its own version prefix. Old builds keep working until you delete them.</p></div>
+<div><div class="ico">__ICON_shield__</div><h3>Integrity built in</h3><p>Each file ships with a published sha384 digest for your <code>integrity</code> attribute.</p></div>
+<div><div class="ico">__ICON_globe__</div><h3>Nine edges</h3><p>Requests are answered by the closest edge; only the first one reaches origin storage.</p></div>
+<div><div class="ico">__ICON_bolt__</div><h3>HTTPS and HTTP/2</h3><p>Certificates are issued and renewed for you. Nothing to configure, nothing to remember.</p></div>
+</section>
+
+<section class="net"><div><h2>Close to every visitor</h2><p>Nine edge locations across Europe, Asia and the Americas answer requests locally. The first request fills the cache, every next one is served from the edge.</p><a class="more" href="edges.html">See live edge status →</a></div><div>__ART_GLOBE__</div></section>
+
+<section class="stats">
+<div><strong>9</strong><span>edge locations</span></div>
+<div><strong>99.96%</strong><span>90-day availability</span></div>
+<div><strong>24 ms</strong><span>median time to first byte</span></div>
+<div><strong>0</strong><span>cache purges needed</span></div>
+</section>
+
+<section class="qs"><h2 style="text-align:left">Quick start</h2>
+<pre><code>&lt;script
+  src="https://__DOMAIN__/p/acme-ui/4.2.1/acme-ui.min.js"
+  integrity="sha384-Rt2pKv9mQ0cWbEwx7LhN4sYqZjF1aUdC6oTgX3PvBnKsMyHeJr8DlQfiVzAu5Nbw"
+  crossorigin="anonymous"&gt;&lt;/script&gt;</code></pre>
+<a class="more" href="usage.html">Upload guide, cache headers and integrity notes →</a></section>
+
+<section class="band"><div><h2>Built for teams that ship often</h2><p>Per-project tokens, release history and audit trail — without another dashboard to learn.</p><a class="btn p" href="about.html">Talk to the team</a></div><div class="big">__ICON_shield__</div></section>
+</main>
+
+<footer><div class="w"><div class="cols">
+<div><div class="brand" style="color:var(--fg)"><i></i>__BRAND__</div><p style="margin-top:8px;max-width:280px">Static delivery for open-source builds.</p></div>
+<div><h4>Product</h4><a href="usage.html">Usage</a><a href="edges.html">Edges</a><a href="usage.html">Integrity</a></div>
+<div><h4>Company</h4><a href="about.html">About</a><a href="about.html">Contact</a><a href="about.html">Terms</a></div>
+<div><h4>Status</h4><a href="edges.html">Edge status</a><a href="edges.html">Incidents</a></div>
+</div><div class="copy">© 2026 __BRAND__ — static delivery for open-source builds</div></div></footer>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Независимая диагностика и обслуживание автомобилей Tesla. Мастер __NAME_RU__, работа по предварительной записи.">
+<meta name="theme-color" content="#17191c">
+<title>О мастере | __NAME_EN__ Tesla Service</title>
+<style>
+:root{--bg:#17191c;--bg2:#1f2226;--line:#2d3136;--fg:#eceef0;--mut:#9aa1a9;--red:__A__}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font:17px/1.65 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+a{color:inherit;text-decoration:none}
+a:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+.w{max-width:1080px;margin:0 auto;padding:0 22px}
+header{position:sticky;top:0;z-index:5;background:#17191cf0;border-bottom:1px solid var(--line)}
+header .w{display:flex;align-items:center;gap:26px;height:66px}
+.logo{display:flex;align-items:center;gap:10px;margin-right:auto;line-height:1.1}
+.logo i{width:32px;height:32px;border-radius:50%;background:var(--red);display:grid;place-items:center;font-style:normal;font-weight:800}
+.logo b{font-weight:500;display:block;font-size:13px;color:var(--mut)}
+header nav a{color:var(--mut);font-size:15px;margin-left:4px}
+header nav a:hover{color:var(--fg)}
+.btn{display:inline-block;padding:12px 22px;border-radius:6px;font-weight:600;font-size:15px;border:1px solid var(--line);margin:0 8px 8px 0}
+.btn.p{background:var(--red);border-color:var(--red);color:#fff}
+.hero{position:relative;min-height:560px;display:flex;align-items:flex-end;background:
+ linear-gradient(180deg,#17191c40 0%,#17191c 92%),
+ radial-gradient(ellipse at 70% 30%,#3a4047 0%,#17191c 65%);}
+.hero .w{padding-bottom:60px;padding-top:120px}
+.hero small{color:var(--red);font-weight:600}
+h1{font-size:clamp(36px,6vw,66px);line-height:1.05;letter-spacing:-1.5px;margin:10px 0 16px;max-width:760px}
+.hero p{max-width:540px;color:var(--mut);font-size:19px;margin-bottom:26px}
+.tags{color:var(--mut);font-size:14px;margin-top:10px}
+section{padding:72px 0;border-top:1px solid var(--line)}
+.approach{display:grid;grid-template-columns:1fr 1.4fr;gap:40px;align-items:start}
+h2{font-size:clamp(26px,3.6vw,38px);line-height:1.15;letter-spacing:-.8px}
+.muted{color:var(--mut)}
+.services{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:30px}
+.svc{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:26px}
+.svc span{color:var(--red);font-weight:700;font-size:14px}
+.svc h3{margin:6px 0 8px;font-size:20px}
+.svc p{color:var(--mut);font-size:15px}
+.svc em{display:block;margin-top:12px;font-style:normal;font-size:14px;border-top:1px solid var(--line);padding-top:10px}
+.models{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.models span{border:1px solid var(--line);background:var(--bg2);border-radius:99px;padding:8px 20px;font-weight:600}
+ol{list-style:none;padding:0;margin-top:30px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+ol li{border-left:2px solid var(--red);padding:2px 0 2px 18px}
+ol h3{font-size:19px;margin-bottom:4px}
+ol p{color:var(--mut);font-size:15px}
+.contact{text-align:center}
+.contact p{max-width:520px;margin:12px auto 26px}
+footer{border-top:1px solid var(--line);padding:30px 0;color:var(--mut);font-size:14px}
+footer .w{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+footer a{margin-left:18px}
+@media(max-width:760px){.approach,.services,ol{grid-template-columns:1fr}header nav{display:none}.hero{min-height:480px}}
+.banner{margin:26px 0;border-radius:16px;overflow:hidden;aspect-ratio:16/5;border:1px solid rgba(128,128,128,.28)}.banner svg{width:100%!important;height:100%!important;display:block}.globe{width:100%;max-width:420px;height:auto;display:block;margin:24px auto}
+</style>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+<header><div class="w">
+<a class="logo" href="/"><i>__INIT__</i><span>__NAME_EN__<b>Tesla Service</b></span></a>
+<nav><a href="#services">Услуги</a> &nbsp; <a href="prices.html">Цены</a> &nbsp; <a href="#process">Как работаю</a> &nbsp; <a href="about.html">О мастере</a></nav>
+<a class="btn p" style="margin:0" href="#contact">Записаться</a>
+</div></header>
+<section style="border-top:0"><div class="w">
+<div class="muted">О мастере</div><h2 style="margin-top:6px">__NAME_RU__, независимый мастер по Tesla</h2>
+<div class="banner">__ART_CITY5__</div>
+<p class="muted" style="margin-top:16px;max-width:660px">Много лет занимаюсь электромобилями: диагностика, подвеска, тормоза, зарядка и низковольтная электрика. Работаю один, поэтому принимаю ограниченное количество автомобилей и только по предварительной записи.</p>
+<div class="services"><div class="svc"><span>01</span><h3>Прозрачность</h3><p>Результаты диагностики показываю и объясняю простыми словами, до начала ремонта согласую список работ.</p></div>
+<div class="svc"><span>02</span><h3>Без спешки</h3><p>Лучше отложить визит на день, чем делать работу в спешке. Сроки называю заранее.</p></div></div>
+<p class="muted" style="margin-top:30px">Связаться: <a href="mailto:service@__DOMAIN__" style="color:var(--red)">service@__DOMAIN__</a></p>
+</div></section>
+
+<footer><div class="w">
+<span>__NAME_EN__ Tesla Service · Независимая мастерская. Не является официальным сервисным центром Tesla, Inc.</span>
+<span><a href="about.html">О мастере</a><a href="prices.html">Цены</a><a href="privacy.html">Конфиденциальность</a></span>
+</div></footer>
+</body>
+</html>
